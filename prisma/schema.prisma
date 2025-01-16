@@ -1,0 +1,171 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int             @id @default(autoincrement())
+  email          String          @unique
+  password       String
+  firstName      String
+  lastName       String
+  role           UserRole        @default(USER)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  address        Address[]
+  orders         Order[]
+  reviews        Review[]
+  paymentMethods PaymentMethod[]
+}
+
+model Address {
+  id     Int    @id @default(autoincrement())
+  street String
+  city   String
+  state  String
+  zip    String
+  userId Int
+  user   User   @relation(fields: [userId], references: [id])
+
+  Order Order[]
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String
+  slug     String    @unique
+  products Product[]
+}
+
+model Product {
+  id          Int         @id @default(autoincrement())
+  name        String
+  description String
+  price       Float
+  image       Image[]
+  stock       Int
+  slug        String      @unique
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  categoryId  Int
+  category    Category    @relation(fields: [categoryId], references: [id])
+  reviews     Review[]
+  orderItems  OrderItem[]
+}
+
+model Image {
+  id        Int     @id @default(autoincrement())
+  url       String
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+model Order {
+  id              Int         @id @default(autoincrement())
+  userId          Int
+  total           Float
+  discount        Float       @default(0.0)
+  status          OrderStatus @default(PENDING)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  user            User        @relation(fields: [userId], references: [id])
+  items           OrderItem[]
+  shippingAddress Address?    @relation(fields: [addressId], references: [id])
+  payment         Payment?
+  coupon          Coupon?     @relation(fields: [couponId], references: [id])
+  couponId        Int?
+  addressId       Int?
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  productId Int
+  quantity  Int
+  price     Float
+  order     Order   @relation(fields: [orderId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+model Coupon {
+  id          Int      @id @default(autoincrement())
+  ccode       String   @unique
+  description String?
+  discount    Float
+  expiresAt   DateTime
+  isActive    Boolean  @default(true)
+  orders      Order[]
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  productId Int
+  rating    Int      @default(5)
+  comment   String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+}
+
+model Payment {
+  id            Int               @id @default(autoincrement())
+  orderId       Int               @unique
+  amount        Float
+  method        PaymentMethodType
+  status        PaymentStatus     @default(PENDING)
+  transactionId String?
+  createdAt     DateTime          @default(now())
+  order         Order             @relation(fields: [orderId], references: [id])
+}
+
+model PaymentMethod {
+  id         Int               @id @default(autoincrement())
+  userId     Int
+  type       PaymentMethodType
+  provider   String
+  cardNumber String
+  expiryDate DateTime
+  isDefault  Boolean           @default(false)
+  user       User              @relation(fields: [userId], references: [id])
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentMethodType {
+  CREDIT_CARD
+  DEBIT_CARD
+  NET_BANKING
+  UPI
+  PAYPAL
+  CASH_ON_DELIVERY
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
