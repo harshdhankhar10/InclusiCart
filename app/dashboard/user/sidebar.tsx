@@ -21,6 +21,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import Image from "next/image"
+import { useSession } from "next-auth/react"
 
 const menuItems = [
     {
@@ -77,6 +78,9 @@ export default function Sidebar() {
   const [expanded, setExpanded] = useState<string | null>(null)
   const [isCollapsed, setIsCollapsed] = useState(false)
   const pathname = usePathname()
+    const { data: session } = useSession();
+    const userInfo = session?.user
+  
 
   return (
     <motion.aside
@@ -125,13 +129,13 @@ export default function Sidebar() {
           isCollapsed ? "justify-center" : ""
         )}>
           <Avatar className="h-10 w-10 border-2 border-[#4F46E5]/20">
-            <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32" />
-            <AvatarFallback>AJ</AvatarFallback>
+            <AvatarImage src={userInfo?.profilePicture} alt={userInfo?.fullName} />
+            <AvatarFallback>{userInfo?.fullName.slice(0, 2).toLocaleUpperCase()}</AvatarFallback>
           </Avatar>
           {!isCollapsed && (
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-[#1E293B] truncate">Alex Johnson</p>
-              <p className="text-xs text-[#64748B] truncate">Project Manager</p>
+              <p className="text-sm font-medium text-[#1E293B] truncate">{userInfo?.fullName}</p>
+              <p className="text-xs text-[#64748B] truncate">{userInfo?.email}</p>
             </div>
           )}
         </div>

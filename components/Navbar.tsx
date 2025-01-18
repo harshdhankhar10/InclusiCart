@@ -19,11 +19,16 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+
 
 const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const { data: session } = useSession();
+  const userInfo = session?.user
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,7 +40,7 @@ const Navbar: React.FC = () => {
 
   return (
     <div className="relative">
-      {/* Announcement Bar */}
+
       <div className="bg-gray-900 text-white py-2">
         <div className="container mx-auto px-4 flex items-center justify-between">
           <div className="flex items-center space-x-4 text-sm">
@@ -52,7 +57,6 @@ const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Navigation */}
       <header 
         className={`bg-white ${
           isScrolled ? 'shadow-lg' : ''
@@ -60,12 +64,11 @@ const Navbar: React.FC = () => {
       >
         <nav className="container mx-auto px-4 border-b border-gray-200">
           <div className="flex items-center justify-between h-16">
-            {/* Logo */}
+
             <div className="flex-shrink-0">
               <Image src="/web-logo.png" alt="Logo" width={260} height={48} className="h-16 w-auto" />
             </div>
 
-            {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-8">
               {navLinks.map((link, index) =>
                 link.submenu ? (
@@ -84,7 +87,7 @@ const Navbar: React.FC = () => {
               )}
             </div>
 
-            {/* Desktop Actions */}
+
             <div className="hidden lg:flex items-center space-x-6">
               <div className="relative">
                 <Button
@@ -116,9 +119,29 @@ const Navbar: React.FC = () => {
               <Button variant="ghost" size="sm" className="p-2">
                 <Heart className="w-5 h-5" />
               </Button>
-              <Button variant="ghost" size="sm" className="p-2">
-                <User className="w-5 h-5" />
-              </Button>
+              <Button 
+  variant="ghost" 
+  size="sm" 
+  className="p-2 flex items-center gap-2 hover:bg-gray-100 rounded-lg transition-all duration-200"
+>
+  {
+    userInfo ? (
+        <a href ={`/dashboard/${userInfo.role.toLocaleLowerCase()}`} className="flex items-center gap-2">
+        <Image 
+          src={userInfo?.profilePicture || "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"}
+          alt="User" 
+          width={30} 
+          height={30} 
+          className="rounded-full border border-gray-300" 
+        />
+        <span className="text-gray-800 font-medium text-sm">{userInfo.fullName}</span>
+        </a>
+    ) : (
+      <User className="w-5 h-5 text-gray-600" />
+    )
+  }
+</Button>
+
              <Link href="/shopping-cart">
              <Button variant="default" size="sm" className="flex items-center gap-2">
                 <ShoppingBag className="w-5 h-5" />
@@ -127,7 +150,6 @@ const Navbar: React.FC = () => {
              </Link>
             </div>
 
-            {/* Mobile Menu Button */}
             <div className="lg:hidden">
               <Button
                 variant="ghost"
@@ -140,7 +162,6 @@ const Navbar: React.FC = () => {
           </div>
         </nav>
 
-        {/* Mobile Menu */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
 import { Search, Bell, User, Settings, LogOut, Calendar, MessageSquare } from "lucide-react"
@@ -13,11 +13,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useSession } from "next-auth/react"
 
 export default function TopNav() {
+
+
   const pathname = usePathname()
   const [searchQuery, setSearchQuery] = useState("")
-
+  const { data: session } = useSession();
+  const userInfo = session?.user
+  
   const getPageTitle = () => {
     const path = pathname.split("/").filter(Boolean)
     if (path.length === 0) return "Dashboard"
@@ -65,10 +70,10 @@ export default function TopNav() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="flex items-center gap-2 hover:bg-[#F1F5F9]">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32" />
-                  <AvatarFallback>AJ</AvatarFallback>
+                  <AvatarImage src={userInfo?.profilePicture || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32"} />
+                  <AvatarFallback>{userInfo?.fullName?.charAt(0)}</AvatarFallback>
                 </Avatar>
-                <span className="text-md font-medium text-[#1E293B]">Alex Johnson</span>
+                <span className="text-md font-medium text-[#1E293B]">{userInfo?.fullName}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56 p-2 shadow-lg bg-white rounded-lg">

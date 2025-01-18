@@ -8,10 +8,12 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ArrowRight, Mail, Lock, Eye, EyeOff, User } from 'lucide-react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
+import Swal from 'sweetalert2';
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -20,8 +22,61 @@ export default function RegisterPage() {
     confirmPassword: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+
+    try {
+      if (formData.password !== formData.confirmPassword) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Passwords do not match',
+          text: 'Please make sure your passwords match',
+        });
+        setLoading(false);
+        return;
+      }
+
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setLoading(false);
+        Swal.fire({
+          icon: 'success',
+          title: 'Account created successfully',
+          text: `Welcome ${data.firstName}`,
+        });
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 1000);
+
+      } else {
+        const data = await response.json();
+        Swal.fire({
+          icon: 'error',
+          title: 'Error creating account',
+          text: data.message,
+        });
+        setLoading(false);
+      }
+      
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error creating account',
+        text: 'An error occurred while creating your account',
+      });
+      setLoading(false);
+
+    }
     
   };
 
@@ -171,7 +226,7 @@ export default function RegisterPage() {
             </div>
 
             <Button type="submit" className="w-full">
-              Create Account
+              {loading ? 'Creating Account...' : 'Create Account'}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </form>

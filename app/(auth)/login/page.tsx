@@ -8,16 +8,56 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ArrowRight, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
+import { signIn } from "next-auth/react";
+import Swal from 'sweetalert2';
+
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+    setLoading(true);
+    try {
+        const result = await signIn('credentials', {
+            redirect: false,
+            email,
+            password,
+        });
+        setLoading(false);
+        if(result.error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: result.error,
+              });
+        } else {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: "Logged in successfully",
+              }).then(() => {
+                window.location.href = "/dashboard/user";
+              });
+
+        }
+  
+    } catch (error:any) {
+        console.error('An unexpected error happened:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: "An unexpected error happened",
+        });
+        setLoading(false);
+    }
   };
+  
+
+
 
   return (
         <>
@@ -95,7 +135,7 @@ export default function LoginPage() {
             </div>
 
             <Button type="submit" className="w-full">
-              Sign in
+              {loading ? 'Loading...' : 'Sign in'}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </form>
@@ -132,10 +172,8 @@ export default function LoginPage() {
               Google
             </Button>
             <Button variant="outline" className="w-full">
-              <svg className="mr-2 h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
-              </svg>
-              Facebook
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+              Github
             </Button>
           </div>
 

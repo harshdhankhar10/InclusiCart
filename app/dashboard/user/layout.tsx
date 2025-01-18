@@ -1,6 +1,7 @@
 "use client";
 
 import { Inter } from "next/font/google";
+import AuthProvider from "@/components/providers/auth-provider";
 
 import Sidebar from "./sidebar";
 import TopNav from "./TopNav";
@@ -18,13 +19,15 @@ export default function RootLayout({
       </head>
 
       <body className={`${inter.className} bg-[#f8fafc]`}>
-        <div className="flex h-screen overflow-hidden">
+       <AuthProvider>
+       <div className="flex h-screen overflow-hidden">
           <Sidebar />
           <div className="flex-1 flex flex-col overflow-hidden">
             <TopNav />
             <main className="flex-1 overflow-y-auto">{children}</main>
           </div>
         </div>
+        </AuthProvider>
       </body>
     </html>
   );
