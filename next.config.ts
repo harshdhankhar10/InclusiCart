@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   images: {
     domains: ["images.unsplash.com",
       "img.freepik.com",
+      "t4.ftcdn.net",
+      "media.istockphoto.com",
+      
     ],
   },
   webpack: (config) => {

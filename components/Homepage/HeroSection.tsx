@@ -4,11 +4,22 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 const HeroSection: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const slides = [
+  interface Slide {
+    title: string;
+    subtitle: string;
+    description: string;
+    image: string;
+    buttonText: string;
+  }
+  
+  
+
+  const slides: Slide[] = [
     {
       title: "Elevate Your Style",
       subtitle: "New Season Arrivals",
@@ -49,10 +60,11 @@ const HeroSection: React.FC = () => {
         transition={{ duration: 0.7 }}
         className="absolute inset-0"
       >
-        <img
+        <Image
           src={slides[currentSlide].image}
           alt="Hero background"
           className="w-full h-full object-cover"
+          fill
         />
       </motion.div>
 
