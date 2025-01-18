@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  ShoppingCart,
   Heart,
   User,
   Search,
@@ -14,7 +13,6 @@ import {
   ChevronDown,
   Gift,
   Tag,
-  Bell,
   ShoppingBag
 } from "lucide-react";
 import Image from "next/image";
