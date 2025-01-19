@@ -11,6 +11,9 @@ export const NEXT_AUTH = {
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials: any): Promise<any> {
+                if (!credentials || !credentials.email || !credentials.password) {
+                    throw new Error("Email and password are required");
+                }
                 const user = await prisma.user.findUnique({
                     where: { email: credentials.email },
                 });
@@ -33,11 +36,18 @@ export const NEXT_AUTH = {
         jwt: async ({ token, user }: any) => {
             if (user) {
                 token.user = user; 
+                const userInfo = await prisma.user.findUnique({
+                    where: { email: user.email },
+                });
+                const { password, ...rest } = userInfo!;
+                token.user = rest;
+
             }
             return token;
+
         },
         session: ({ session, token }: any) => {
-        
+            
             session.user = {
                 id: token.user.id,
                 email: token.user.email,

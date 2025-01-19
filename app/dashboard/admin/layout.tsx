@@ -1,11 +1,9 @@
-
 import { Inter } from "next/font/google";
-
+import { getServerSession } from "next-auth";
 import Sidebar from "./sidebar";
 import TopNav from "./TopNav";
-import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation"; 
 import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,19 +19,18 @@ export default async function RootLayout({
     },
   });
 
-  if (!session || userInfo?.role !== "USER") {
+  if (!session || userInfo?.role !== "ADMIN" || !userInfo) {
     redirect("/login"); 
   }
 
-
-
   return (
     <html suppressHydrationWarning lang="en">
-      <head >
+      <head>
+        <title>Your App</title>
       </head>
 
       <body className={`${inter.className} bg-[#f8fafc]`}>
-       <div className="flex h-screen overflow-hidden">
+        <div className="flex h-screen overflow-hidden">
           <Sidebar />
           <div className="flex-1 flex flex-col overflow-hidden">
             <TopNav />
@@ -44,4 +41,3 @@ export default async function RootLayout({
     </html>
   );
 }
-

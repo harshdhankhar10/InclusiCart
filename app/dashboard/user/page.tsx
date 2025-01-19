@@ -5,9 +5,6 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { useSession } from "next-auth/react"
-import { redirect } from "next/navigation";
-
 
 
 import {
@@ -102,13 +99,6 @@ const recentActivities = [
 
 export default function Home() {
 
-  const session = useSession();
-  const user = session.data?.user;
-
-  if (session.status === "unauthenticated") {
-    redirect("/login");
-  }
-  
   return (
     <div>
 

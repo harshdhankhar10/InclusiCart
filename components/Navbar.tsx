@@ -25,8 +25,7 @@ const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const { data: session } = useSession();
-  const userInfo = session?.user
-
+  const userInfo = session?.user;
 
   useEffect(() => {
     const handleScroll = () => {

@@ -13,8 +13,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { useSession, signOut } from "next-auth/react"
+import { useSession , signOut} from "next-auth/react"
 import Swal from "sweetalert2"
+
 
 export default function TopNav() {
 
@@ -34,21 +35,23 @@ export default function TopNav() {
     ).join(" / ")
   }
 
-  const handleSignOut = async () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will be signed out from your account",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, sign out",
-      cancelButtonText: "No, cancel",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        await signOut()
-      }
-      window.location.href = "/"
-    })
-  }
+    const handleSignOut = async () => {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You will be signed out from your account",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, sign out",
+        cancelButtonText: "No, cancel",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await signOut()
+        }
+        window.location.href = "/"
+      })
+    }
+  
+  
 
   return (
     <div className="bg-white border-b border-[#E2E8F0] px-6 py-4">
@@ -104,7 +107,7 @@ export default function TopNav() {
               </DropdownMenuItem>
               <div className="h-px bg-[#E2E8F0] my-2"></div>
               <DropdownMenuItem onClick={handleSignOut}
-                 className="flex items-center gap-2 p-2 cursor-pointer hover:bg-[#F1F5F9] text-[#DC2626] rounded-lg">
+               className="flex items-center gap-2 p-2 cursor-pointer hover:bg-[#F1F5F9] text-[#DC2626] rounded-lg">
                 <LogOut className="h-4 w-4" />
                 <span className="text-sm">Sign out</span>
               </DropdownMenuItem>
