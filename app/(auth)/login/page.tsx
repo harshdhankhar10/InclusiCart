@@ -40,7 +40,7 @@ export default function LoginPage() {
                 title: 'Success',
                 text: "Logged in successfully",
               }).then(() => {
-                window.location.href = "/dashboard/user";
+                window.location.href = `/`;
               });
 
         }
