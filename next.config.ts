@@ -6,7 +6,8 @@ const nextConfig: NextConfig = {
     domains: ["images.unsplash.com",
       "img.freepik.com",
       "t4.ftcdn.net",
-      "media.istockphoto.com",
+      "media.istockphoto.com"
+
       
     ],
   },

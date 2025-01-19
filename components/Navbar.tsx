@@ -63,7 +63,9 @@ const Navbar: React.FC = () => {
           <div className="flex items-center justify-between h-16">
 
             <div className="flex-shrink-0">
+              <Link href="/">
               <Image src="/web-logo.png" alt="Logo" width={260} height={48} className="h-16 w-auto" />
+              </Link>
             </div>
 
             <div className="hidden lg:flex items-center space-x-8">
@@ -134,7 +136,9 @@ const Navbar: React.FC = () => {
         <span className="text-gray-800 font-medium text-sm">{userInfo.fullName}</span>
         </a>
     ) : (
+      <Link href="/login">
       <User className="w-5 h-5 text-gray-600" />
+      </Link>
     )
   }
 </Button>
@@ -189,9 +193,25 @@ const Navbar: React.FC = () => {
                   )
               )}
                 <div className="pt-4 border-t border-gray-200">
-                  <Button variant="default" className="w-full">
-                    Sign In
-                  </Button>
+                  {userInfo ? (
+                    <a href={`/dashboard/${userInfo.role.toLocaleLowerCase()}`} className="flex items-center gap-2 py-2 text-gray-700 hover:text-gray-900 text-sm font-medium">
+                      <Image
+                        src={userInfo?.profilePicture || "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"}
+                        alt="User"
+                        width={30}
+                        height={30}
+                        className="rounded-full border border-gray-300"
+                      />
+                      <span className="text-gray-800 font-medium text-sm">{userInfo.fullName}</span>
+                    </a>
+                  ) : (
+                    <Link href="/login">
+                      <Button variant="default" size="sm" className="flex items-center gap-2 py-2 text-white text-center text-sm font-medium w-full">
+                        <User className="w-5 h-5" />
+                        Sign In
+                      </Button>
+                    </Link>
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -325,6 +345,34 @@ const navLinks = [
           { label: "Accessories", href: "/shop/women/accessories" }
         ],
       },
+    ],
+  },
+   {
+    label: "Kids Collection",
+    submenu: [
+      {
+        label: "Toddlers",
+        href: "/shop/kids/toddlers",
+        subItems: [
+          { label: "New Arrivals", href: "/shop/kids/toddlers/new" },
+          { label: "Trending", href: "/shop/kids/toddlers/trending" },
+          { label: "Shirts", href: "/shop/men/shirts" },
+          { label: "Pants", href: "/shop/men/pants" },
+          { label: "Accessories", href: "/shop/men/accessories" }
+        ],
+      },
+      {
+        label: "Teenagers",
+        href: "/shop/kids/teenagers",
+        subItems: [
+          { label: "New Arrivals", href: "/shop/women/new" },
+          { label: "Trending", href: "/shop/women/trending" },
+          { label: "Dresses", href: "/shop/women/dresses" },
+          { label: "Skirts", href: "/shop/women/skirts" },
+          { label: "Accessories", href: "/shop/women/accessories" }
+        ],
+      },
+      
     ],
   },
   { label: "Deals", href: "/deals", icon: <Tag className="w-4 h-4" /> },

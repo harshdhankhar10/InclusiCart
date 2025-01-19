@@ -7,6 +7,7 @@ import {
   CardContent,
 } from '@/components/ui/card';
 import { Heart, ShoppingCart, Star, ArrowRight, Plus } from 'lucide-react';
+import Image from 'next/image';
 
 const featuredProducts = [
   {
@@ -77,9 +78,11 @@ export default function FeaturedProducts() {
             >
               <CardContent className="p-0">
                 <div className="relative aspect-square overflow-hidden bg-secondary/5">
-                  <img
+                  <Image
                     src={product.image}
                     alt={product.name}
+                    width={800}
+                    height={800}
                     className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-2 left-2 flex flex-col gap-1">
