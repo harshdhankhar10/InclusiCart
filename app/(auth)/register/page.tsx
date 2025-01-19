@@ -235,12 +235,12 @@ export default function RegisterPage() {
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t"></div>
             </div>
-            <div className="relative flex justify-center text-xs uppercase">
+            {/* <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
-            </div>
+            </div> */}
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          {/* <div className="grid grid-cols-2 gap-4">
             <Button variant="outline" className="w-full">
               <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
                 <path
@@ -268,7 +268,7 @@ export default function RegisterPage() {
               </svg>
               Facebook
             </Button>
-          </div>
+          </div> */}
 
           <div className="text-center text-sm">
             Already have an account?{' '}

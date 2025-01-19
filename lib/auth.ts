@@ -1,4 +1,5 @@
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
@@ -33,18 +34,17 @@ export const NEXT_AUTH = {
     },
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
-        jwt: async ({ token, user }: any) => {
+        jwt: async ({ token, user  }: any) => {
             if (user) {
+
                 token.user = user; 
                 const userInfo = await prisma.user.findUnique({
                     where: { email: user.email },
                 });
                 const { password, ...rest } = userInfo!;
                 token.user = rest;
-
-            }
+            }    
             return token;
-
         },
         session: ({ session, token }: any) => {
             
