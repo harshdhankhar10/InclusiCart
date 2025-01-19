@@ -28,11 +28,11 @@ export default function LoginPage() {
             password,
         });
         setLoading(false);
-        if(result.error) {
+        if(!result) {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: result.error,
+                text: "Invalid email or password",
               });
         } else {
             Swal.fire({
