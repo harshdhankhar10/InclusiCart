@@ -180,7 +180,7 @@ export default function Sidebar() {
                     {item.submenu.map((subItem) => (
                       <Link
                         key={subItem}
-                        href={`/dashboard/manager${item.path}/${subItem.toLowerCase().replace(/ /g, "-")}`}
+                        href={`/dashboard${item.path}/${subItem.toLowerCase().replace(/ /g, "-")}`}
                         className={cn(
                           "block py-2 px-3 rounded-lg text-sm transition-colors",
                           pathname === `${item.path}/${subItem.toLowerCase().replace(/ /g, "-")}`

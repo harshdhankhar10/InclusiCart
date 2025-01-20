@@ -63,7 +63,6 @@ model VerificationToken {
   expires    DateTime
 }
 
-
 model Address {
   id     Int    @id @default(autoincrement())
   street String
