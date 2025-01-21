@@ -1,0 +1,30 @@
+{
+    "name": "InclusiCart",
+    "short_name": "InclusiCart",
+    "icons": [
+      {
+        "src": "/assets/logo 192x192.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "/assets/logo 384x384.png",
+        "sizes": "384x384",
+        "type": "image/png"
+      },
+      {
+        "src": "/assets/logo 512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "theme_color": "#FFFFFF",
+    "background_color": "#FFFFFF",
+    "orientation": "portrait",
+    "description": "InclusiCart is a shopping cart application that is designed to be accessible to all users.Our goal is to make shopping easier for everyone."
+  }
+  

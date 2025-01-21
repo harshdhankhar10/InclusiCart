@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/components/providers/auth-provider";
@@ -16,6 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "InclusiCart",
   description: "Discover a wide variety of products at InclusiCart - from electronics to fashion, home goods to beauty products. Enjoy seamless shopping, secure payments, and fast delivery. Shop now and experience the convenience of a global e-commerce marketplace",
+  manifest : "./manifest.json",
 };
 
 export default function RootLayout({
@@ -35,3 +36,7 @@ export default function RootLayout({
     </html>
   );
 }
+
+export const viewport: Viewport = {
+  themeColor: "#FFFFFF",
+};

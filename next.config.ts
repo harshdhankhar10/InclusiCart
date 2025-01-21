@@ -1,14 +1,14 @@
 import { NextConfig } from "next";
+import withPWA from "@ducanh2912/next-pwa";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["images.unsplash.com",
+    domains: [
+      "images.unsplash.com",
       "img.freepik.com",
       "t4.ftcdn.net",
       "media.istockphoto.com"
-
-      
     ],
   },
   webpack: (config) => {
@@ -22,4 +22,11 @@ const nextConfig: NextConfig = {
   }
 };
 
-export default nextConfig;
+export default withPWA({
+  dest: "public",
+  register: true,
+  disable: process.env.NODE_ENV === "development",
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: true,
+  reloadOnOnline: true,
+})(nextConfig);
