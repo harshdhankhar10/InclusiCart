@@ -4,8 +4,15 @@ import Sidebar from "./sidebar";
 import TopNav from "./TopNav";
 import { redirect } from "next/navigation"; 
 import { prisma } from "@/lib/prisma";
-
+import { Metadata } from "next";
 const inter = Inter({ subsets: ["latin"] });
+
+
+export const metadata: Metadata = {
+  title: "Admin Dashboard | InclusiCart",
+  description: "Discover a wide variety of products at InclusiCart - from electronics to fashion, home goods to beauty products. Enjoy seamless shopping, secure payments, and fast delivery. Shop now and experience the convenience of a global e-commerce marketplace",
+};
+
 
 export default async function RootLayout({
   children,
@@ -22,6 +29,7 @@ export default async function RootLayout({
   if (!session || userInfo?.role !== "ADMIN" || !userInfo) {
     redirect("/login"); 
   }
+
 
   return (
     <html suppressHydrationWarning lang="en">
