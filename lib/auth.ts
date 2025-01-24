@@ -44,7 +44,7 @@ export const NEXT_AUTH = {
                 const { password, ...rest } = userInfo!;
                 token.user = rest;
             }    
-            return token;
+            return Object.assign(token, user);
         },
         session: ({ session, token }: any) => {
             

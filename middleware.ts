@@ -9,14 +9,17 @@ export async function middleware(req: NextRequest) {
 
   const pathname = req.nextUrl.pathname;
   const isAdminRoute = adminPaths.some((path) => pathname.startsWith(path));
+  
 
   if (isAdminRoute) {
     if (!token) {
       return NextResponse.json({ error: "Unauthorized: No token found" }, { status: 401 });
     }
-    if (token?.role !== "ADMIN") {
+    if (token?.user?.role !== 'ADMIN') {
       return NextResponse.json({ error: "Forbidden: Admin role required" }, { status: 403 });
     }
+
+
   }
 
   if (userPaths.some((path) => pathname.startsWith(path))) {

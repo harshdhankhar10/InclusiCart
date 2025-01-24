@@ -23,6 +23,7 @@ model User {
   role           UserRole        @default(USER)
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
+  status         Status         @default(ACTIVE)
   address        Address[]
   orders         Order[]
   reviews        Review[]
@@ -30,6 +31,11 @@ model User {
   accounts       Account[]
   sessions       Session[]
   notifications  Notification[]
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
 }
 
 model Session {
