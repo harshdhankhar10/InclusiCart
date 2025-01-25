@@ -8,7 +8,8 @@ const nextConfig: NextConfig = {
       "images.unsplash.com",
       "img.freepik.com",
       "t4.ftcdn.net",
-      "media.istockphoto.com"
+      "media.istockphoto.com",
+      "encrypted-tbn0.gstatic.com"
     ],
   },
   webpack: (config) => {

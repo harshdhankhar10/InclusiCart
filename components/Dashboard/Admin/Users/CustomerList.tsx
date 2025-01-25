@@ -293,8 +293,9 @@ const  CustomersPage: React.FC<CustomerProps>  = ({userData}) => {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <button className="text-purple-600 hover:text-purple-900 mr-4">View</button>
-                      <button className="text-gray-600 hover:text-gray-900">Edit</button>
+                      <Link href={`/dashboard/admin/users/customer-list/${customer.id}`}>
+                      <button className="text-purple-600 hover:text-purple-900">View</button>
+                      </Link>
                       <button onClick={handleDeleteCustomer(customer.id)}
                        className="text-red-600 hover:text-red-900 ml-4">Delete</button>
                     </td>
